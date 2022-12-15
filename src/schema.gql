@@ -16,7 +16,7 @@ type Player {
 scalar Timestamp
 
 type Query {
-  initializePlayer: Player!
+  findPlayer: Player!
   sayHello: String!
 }
 
