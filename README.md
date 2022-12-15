@@ -1,12 +1,5 @@
 # GraphQL Server Example with NestJS (code-first)
 
-This example shows how to implement an **GraphQL server (code-first) with TypeScript** with the following stack:
-
-- [NestJS](https://docs.nestjs.com/graphql/quick-start): Web framework for building scalable server-side applications
-- [**Prisma Client**](https://www.prisma.io/docs/concepts/components/prisma-client): Databases access (ORM)                  
-- [**Prisma Migrate**](https://www.prisma.io/docs/concepts/components/prisma-migrate): Database migrations               
-- [**SQLite**](https://www.sqlite.org/index.html): Local, file-based SQL database
-
 ## Getting started
 
 ### 1. Download example and install dependencies
@@ -20,10 +13,10 @@ npm install
 
 ### 2. Create and seed the database
 
-Run the following command to create your SQLite database file. This also creates the `Player` table that is defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
+Run the following command to create your docker container with Postgres database. This also creates and seeds the `Player` table that is defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
 
 ```
-npx prisma migrate dev --name init
+npm run db:dev:init
 ```
 
 When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
@@ -31,7 +24,7 @@ When `npx prisma migrate dev` is executed against a newly created database, seed
 
 ### 2. Start the GraphQL server
 
-Launch your GraphQL server with this command:
+Launch your GraphQL server and start the postgres container with this command:
 
 ```
 npm run dev
@@ -39,6 +32,37 @@ npm run dev
 
 Navigate to [http://localhost:3000/graphql](http://localhost:3000/graphql) in your browser to explore the API of your GraphQL server in a [GraphQL Playground](https://github.com/prisma/graphql-playground).
 
+## Other Scripts Included  
+
+```JSON
+"scripts": {
+    // shuts down the postgres container and removes it
+    "db:dev:rm": "docker compose rm player_dev_db -s -f -v",
+    // starts the postgres container in the background
+    "db:dev:up": "docker compose up player_dev_db -d",
+    // removes rows from the player table and resets auto-incrementing counts to 1
+    "db:clean": "npm run clean && npx prisma db push --force-reset && npx prisma db push",
+    // runs the above command then seeds the db from the ./prisma/seed.ts file
+    "db:clean:seed": "npm run db:clean && sleep 1 && npx prisma db seed",
+    // initialization for postgres container - push migrations - seed the db
+    "db:dev:init": "npm run db:dev:up && sleep 1 && npx migrate dev && npx prisma db seed",
+    "prebuild": "rimraf dist",
+    "build": "nest build",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "start": "nest start",
+    // starts the postgres container + the nest dev server in --watch mode
+    "dev": "npm run db:dev:up && nest start --watch",
+    "start:debug": "nest start --debug --watch",
+    "start:prod": "node dist/src/main",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:cov": "jest --coverage",
+    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "clean": "ts-node prisma/cleanDb.ts"
+  },
+```
 
 ## Using the GraphQL API
 
