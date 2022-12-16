@@ -25,10 +25,9 @@ type Mutation {
 }
 
 input PlayerEditInput {
-  player: PlayerC!
+  player: PlayerId!
 }
 
-input PlayerC {
+input PlayerId {
   id: Float!
-  name: String!
 }

@@ -9,7 +9,7 @@ import {
 } from '@nestjs/graphql'
 import { Player } from './player'
 import { PlayerService } from './player.service'
-// ?
+
 @InputType()
 class PlayerId {
   @Field()
@@ -25,12 +25,12 @@ class PlayerEditInput {
 @Resolver(Player)
 export class PlayerResolver {
   constructor(
-    private playerService, PlayerService
+    private playerService: PlayerService
     ) {}
 
 @Query((returns) => Player)
   async findPlayer(id: number): Promise<Player> {
-    return await this.playerService()
+    return await this.playerService.findOne(id)
   }
 
 
@@ -38,6 +38,6 @@ export class PlayerResolver {
   async hitPlayer(
     @Args('data') data: PlayerEditInput,
   ): Promise<Player> {
-    return await this.playerService.hitPlayer(data.player.id)
+    return await this.playerService.hitPlayer(data)
   }
 }

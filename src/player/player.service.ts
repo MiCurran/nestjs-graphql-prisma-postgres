@@ -4,17 +4,17 @@ import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
 export class PlayerService {
-    constructor(@Inject(PrismaService) private prismaService: PrismaService) {}
+    constructor(private prismaService: PrismaService) {}
 
-    async findOne(id: number): Promise<Player> {
-       return await this.prismaService.player.findFirst({
+    findOne(id: number): Promise<Player> {
+       return this.prismaService.player.findFirst({
         where: {
           id: id
         },
       })
     }
 
-    async hitPlayer(data: {player: {id: number}}): Promise<any> {
+   async hitPlayer(data: {player: {id: number}}): Promise<any> {
         let currentHealth = (await this.findOne(data.player.id)).health
           return this.prismaService.player.update({
             where: {

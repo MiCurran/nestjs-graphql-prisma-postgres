@@ -8,6 +8,7 @@ import { PlayerModule } from './player/player.module';
 import { AppService } from './app.service'
 import { AppController } from './app.controller'
 import { AppResolver } from './resolvers.app'
+import { PlayerService } from './player/player.service'
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { AppResolver } from './resolvers.app'
     PlayerModule,
   ],
   controllers: [AppController],
-  providers: [PrismaService, PlayerResolver, AppResolver, AppService],
+  providers: [PrismaService, PlayerResolver, AppResolver, AppService, PlayerService],
 })
 export class AppModule {}

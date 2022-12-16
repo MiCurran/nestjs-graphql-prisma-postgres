@@ -11,6 +11,7 @@
     "db:clean": "npm run clean && npx prisma db push --force-reset && npx prisma db push",
     "db:clean:seed": "npm run db:clean && sleep 1 && npx prisma db seed",
     "db:dev:init": "npm run db:dev:up && sleep 1 && npx prisma db seed",
+    "clean": "ts-node prisma/cleanDb.ts",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -23,8 +24,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "clean": "ts-node prisma/cleanDb.ts"
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "jest": {
     "collectCoverageFrom": [

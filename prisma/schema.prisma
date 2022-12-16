@@ -13,4 +13,8 @@ model Player {
   updatedAt DateTime @updatedAt
   name String
   health Int
+  gameId Int
+  isActive Boolean @default(false)
+  sentAttacks Int @default(0)
+  gameWinner Boolean?
 }
