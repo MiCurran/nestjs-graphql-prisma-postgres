@@ -14,15 +14,27 @@ export class PlayerService {
       })
     }
 
-   async hitPlayer(data: {player: {id: number}}): Promise<any> {
-        let currentHealth = (await this.findOne(data.player.id)).health
+   async hitPlayer(data: {id: number}): Promise<any> {
+        let currentHealth = (await this.findOne(data.id)).health
           return this.prismaService.player.update({
             where: {
-              id: data.player.id,
+              id: data.id,
             },
             data: {
               health: currentHealth - 1
             },
           })
+    }
+
+    async sendAttack(data: {id: number}): Promise<Player> {
+        const sentAttacks = (await this.findOne(data.id)).sentAttacks;
+        return this.prismaService.player.update({
+            where: {
+                id: data.id
+            },
+            data: {
+                sentAttacks: sentAttacks + 1
+            }
+        })
     }
 }

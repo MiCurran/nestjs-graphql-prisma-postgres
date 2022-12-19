@@ -11,15 +11,9 @@ import { Player } from './player'
 import { PlayerService } from './player.service'
 
 @InputType()
-class PlayerId {
-  @Field()
-  id: number
-}
-
-@InputType()
 class PlayerEditInput {
   @Field()
-  player: PlayerId
+  id: number
 }
 
 @Resolver(Player)
@@ -38,6 +32,14 @@ export class PlayerResolver {
   async hitPlayer(
     @Args('data') data: PlayerEditInput,
   ): Promise<Player> {
-    return await this.playerService.hitPlayer(data)
+    return await this.playerService.hitPlayer({...data})
   }
+
+  @Mutation((returns) => Player)
+  async sendAttack(
+    @Args('data') data: PlayerEditInput,
+  ): Promise<Player> {
+    return await this.playerService.sendAttack({...data})
+  }
+
 }

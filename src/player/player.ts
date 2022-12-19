@@ -17,4 +17,17 @@ export class Player {
 
   @Field((type) => Number)
   health: number
+
+  @Field((type) => Int)
+  gameId: number
+
+  @Field((type) => Boolean)
+  isActive: Boolean
+
+  @Field((type) => Int)
+  sentAttacks: number
+
+  @Field({ nullable: true })
+  gameWinner: boolean
+
 }

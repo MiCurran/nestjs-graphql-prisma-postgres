@@ -8,6 +8,10 @@ type Player {
   updatedAt: Timestamp!
   name: String!
   health: Float!
+  gameId: Int!
+  isActive: Boolean!
+  sentAttacks: Int!
+  gameWinner: Boolean
 }
 
 """
@@ -22,12 +26,9 @@ type Query {
 
 type Mutation {
   hitPlayer(data: PlayerEditInput!): Player!
+  sendAttack(data: PlayerEditInput!): Player!
 }
 
 input PlayerEditInput {
-  player: PlayerId!
-}
-
-input PlayerId {
   id: Float!
 }
