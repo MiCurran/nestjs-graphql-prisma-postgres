@@ -4,21 +4,18 @@ const prisma = new PrismaClient()
 const playerData: Prisma.PlayerCreateInput[] = [
   {
     name: 'Ryu',
-    health: 10,
     gameId: 0,
     isActive: false,
     sentAttacks: 0
   },
   {
     name: 'Ken',
-    health: 10,
     gameId: 0,
     isActive: false,
     sentAttacks: 0
   },
   {
     name: 'Chun-Li', 
-    health: 10,
     gameId: 0,
     isActive: false,
     sentAttacks: 0 

@@ -4,17 +4,10 @@ import {
   Query,
   Mutation,
   Args,
-  InputType,
-  Field,
 } from '@nestjs/graphql'
 import { Player } from './player'
 import { PlayerService } from './player.service'
-
-@InputType()
-class PlayerEditInput {
-  @Field()
-  id: number
-}
+import { HitPlayerArgs, InitPlayerArgs, UpdatePlayerArgs } from './dto/'
 
 @Resolver(Player)
 export class PlayerResolver {
@@ -23,23 +16,30 @@ export class PlayerResolver {
     ) {}
 
 @Query((returns) => Player)
-  async findPlayer(id: number): Promise<Player> {
+  async findPlayer(
+    @Args('id') id: number
+    ): Promise<Player> {
     return await this.playerService.findOne(id)
-  }
-
-
-  @Mutation((returns) => Player)
-  async hitPlayer(
-    @Args('data') data: PlayerEditInput,
-  ): Promise<Player> {
-    return await this.playerService.hitPlayer({...data})
   }
 
   @Mutation((returns) => Player)
   async sendAttack(
-    @Args('data') data: PlayerEditInput,
+    @Args() args: HitPlayerArgs,
   ): Promise<Player> {
-    return await this.playerService.sendAttack({...data})
+    return await this.playerService.sendAttack({...args})
   }
 
+  @Mutation((returns) => Player)
+  async updateOne(
+    @Args() args: UpdatePlayerArgs
+    ): Promise<Player> {
+    return await this.playerService.updateOne({...args})
+  }
+
+  @Mutation((returns) => Player)
+  async initPlayer(
+    @Args() args: InitPlayerArgs
+  ): Promise<Player> {
+    return await this.playerService.initPlayer({...args})
+  }
 }

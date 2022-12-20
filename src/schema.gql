@@ -7,11 +7,9 @@ type Player {
   createdAt: Timestamp!
   updatedAt: Timestamp!
   name: String!
-  health: Float!
   gameId: Int!
   isActive: Boolean!
   sentAttacks: Int!
-  gameWinner: Boolean
 }
 
 """
@@ -20,15 +18,32 @@ type Player {
 scalar Timestamp
 
 type Query {
-  findPlayer: Player!
+  findPlayer(id: Float!): Player!
   sayHello: String!
 }
 
 type Mutation {
-  hitPlayer(data: PlayerEditInput!): Player!
-  sendAttack(data: PlayerEditInput!): Player!
+  sendAttack(data: HitArgs!): Player!
+  updateOne(data: UpdateArgs!): Player!
+  initPlayer(data: InputData!): Player!
 }
 
-input PlayerEditInput {
-  id: Float!
+input HitArgs {
+  idToUpdate: Float!
+}
+
+input UpdateArgs {
+  idToUpdate: Float!
+  dataToUpdate: PrismaUpdateObj!
+}
+
+input PrismaUpdateObj {
+  name: String
+  health: Float
+  sentAttacks: Float
+  gameId: Float
+}
+
+input InputData {
+  name: String!
 }
