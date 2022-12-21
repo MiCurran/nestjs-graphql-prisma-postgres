@@ -7,11 +7,11 @@ class PrismaUpdateObj {
     @MinLength(2)
     name?: string
     @Field({nullable: true})
-    health?: number
-    @Field({nullable: true})
     sentAttacks?: number
     @Field({nullable: true})
     gameId?: number
+    @Field()
+    isActive: boolean
 }
 
 @InputType()

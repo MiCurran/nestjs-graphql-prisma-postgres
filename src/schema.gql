@@ -26,6 +26,7 @@ type Mutation {
   sendAttack(data: HitArgs!): Player!
   updateOne(data: UpdateArgs!): Player!
   initPlayer(data: InputData!): Player!
+  setPlayerActive(id: Float!): Player!
 }
 
 input HitArgs {
@@ -39,9 +40,9 @@ input UpdateArgs {
 
 input PrismaUpdateObj {
   name: String
-  health: Float
   sentAttacks: Float
   gameId: Float
+  isActive: Boolean!
 }
 
 input InputData {

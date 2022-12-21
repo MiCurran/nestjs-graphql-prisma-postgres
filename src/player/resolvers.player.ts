@@ -23,6 +23,9 @@ export class PlayerResolver {
   }
 
   @Mutation((returns) => Player)
+  // this should call the game service to roll an attack and 
+  // or should send attack just be a frontend function
+  // so we click button --send Attack to server--> will have a from player param ---> roll attack on server 
   async sendAttack(
     @Args() args: HitPlayerArgs,
   ): Promise<Player> {
@@ -42,4 +45,12 @@ export class PlayerResolver {
   ): Promise<Player> {
     return await this.playerService.initPlayer({...args})
   }
+
+  @Mutation((returns) => Player)
+  async setPlayerActive(
+    @Args('id') id: number
+    ): Promise<Player> {
+    return await this.playerService.togglePlayerActive(id)
+  }
+
 }

@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Player } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UpdatePlayerArgs, InitPlayerArgs, HitPlayerArgs } from './dto';
@@ -6,8 +6,10 @@ import { UpdatePlayerArgs, InitPlayerArgs, HitPlayerArgs } from './dto';
 @Injectable()
 export class PlayerService {
     constructor(private prismaService: PrismaService) {}
+    private readonly logger = new Logger('logger')
 
     findOne(id: number): Promise<Player> {
+       this.logger.log(`Server Queried: finding one player with id: ${id}`)
        return this.prismaService.player.findFirst({
         where: {
           id: id
@@ -48,5 +50,10 @@ export class PlayerService {
                 sentAttacks: sentAttacks + 1
             }
         })
+    }
+
+    async togglePlayerActive(data: number): Promise<Player> {
+        const currentActiveState = (await this.findOne(data)).isActive
+        return this.updateOne({data: {idToUpdate: data, dataToUpdate: {isActive: !currentActiveState}}})
     }
 }
