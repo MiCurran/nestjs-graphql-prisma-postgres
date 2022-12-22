@@ -6,10 +6,7 @@ type Player {
   id: Int!
   createdAt: Timestamp!
   updatedAt: Timestamp!
-  name: String!
   gameId: Int!
-  isActive: Boolean!
-  sentAttacks: Int!
 }
 
 """
@@ -23,14 +20,8 @@ type Query {
 }
 
 type Mutation {
-  sendAttack(data: HitArgs!): Player!
   updateOne(data: UpdateArgs!): Player!
   initPlayer(data: InputData!): Player!
-  setPlayerActive(id: Float!): Player!
-}
-
-input HitArgs {
-  idToUpdate: Float!
 }
 
 input UpdateArgs {
@@ -46,5 +37,5 @@ input PrismaUpdateObj {
 }
 
 input InputData {
-  name: String!
+  gameId: Float!
 }

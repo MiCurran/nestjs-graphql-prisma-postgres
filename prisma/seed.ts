@@ -3,22 +3,13 @@ import { PrismaClient, Prisma } from '@prisma/client'
 const prisma = new PrismaClient()
 const playerData: Prisma.PlayerCreateInput[] = [
   {
-    name: 'Ryu',
     gameId: 0,
-    isActive: false,
-    sentAttacks: 0
   },
   {
-    name: 'Ken',
     gameId: 0,
-    isActive: false,
-    sentAttacks: 0
   },
   {
-    name: 'Chun-Li', 
     gameId: 0,
-    isActive: false,
-    sentAttacks: 0 
   },
 ]
 

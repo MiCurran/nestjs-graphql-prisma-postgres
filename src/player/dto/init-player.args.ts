@@ -4,8 +4,7 @@ import { Field, ArgsType, InputType } from '@nestjs/graphql';
 @InputType()
 class InputData {
     @Field()
-    @MinLength(2)
-    name: string
+    gameId: number
 }
 @ArgsType()
 export class InitPlayerArgs {

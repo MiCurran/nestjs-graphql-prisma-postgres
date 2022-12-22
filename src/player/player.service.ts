@@ -35,25 +35,7 @@ export class PlayerService {
         return this.prismaService.player.create({
             data: {
                 ...args.data, 
-                gameId: 2, 
             }
         })
-    }
-
-    async sendAttack(data: HitPlayerArgs): Promise<Player> {
-        const sentAttacks = (await this.findOne(data.data.idToUpdate)).sentAttacks;
-        return this.prismaService.player.update({
-            where: {
-                id: data.data.idToUpdate
-            },
-            data: {
-                sentAttacks: sentAttacks + 1
-            }
-        })
-    }
-
-    async togglePlayerActive(data: number): Promise<Player> {
-        const currentActiveState = (await this.findOne(data)).isActive
-        return this.updateOne({data: {idToUpdate: data, dataToUpdate: {isActive: !currentActiveState}}})
     }
 }

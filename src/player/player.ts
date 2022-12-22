@@ -12,16 +12,7 @@ export class Player {
   @Field((type) => Date)
   updatedAt: Date
 
-  @Field()
-  name: string
-
   @Field((type) => Int)
   gameId: number
-
-  @Field((type) => Boolean)
-  isActive: boolean
-
-  @Field((type) => Int)
-  sentAttacks: number
 
 }
