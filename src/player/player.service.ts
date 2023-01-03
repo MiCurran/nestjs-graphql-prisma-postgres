@@ -30,12 +30,37 @@ export class PlayerService {
     }
 
     initPlayer(args: InitPlayerArgs): Promise<Player> {
-        /// this will get called by the game service
-        // an argument will be the gameId to set below
         return this.prismaService.player.create({
             data: {
                 ...args.data, 
             }
         })
+    }
+
+    rollDoesAttackHit(): boolean {
+        return Math.random() < 0.5;
+    }
+
+   async sendAttack(id: number): Promise<Player> {
+        const playerCurrent = (await this.findOne(id));
+        const doesHit = this.rollDoesAttackHit()
+        let updatedPlayer = null
+        if (doesHit === true) {
+            //attack hit increment sentAttacks and hits
+            const dataToUpdate = {
+                sentAttacks: playerCurrent.sentAttacks + 1, 
+                hits: playerCurrent.hits + 1
+            }
+            const dto = {data: {idToUpdate: id, dataToUpdate: dataToUpdate}}
+            updatedPlayer = await this.updateOne(dto);
+        } else {
+            // attack missed just increment sentAttacks
+            const dataToUpdate = {
+                sentAttacks: playerCurrent.sentAttacks + 1, 
+            }
+            const dto = {data: {idToUpdate: id, dataToUpdate: dataToUpdate}}
+            updatedPlayer = await this.updateOne(dto);
+        }
+        return updatedPlayer
     }
 }

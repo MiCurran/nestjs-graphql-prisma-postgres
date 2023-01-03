@@ -36,5 +36,13 @@ export class PlayerResolver {
     return await this.playerService.initPlayer({...args})
   }
 
+  @Mutation((returns) => Player)
+  async sendAttack(
+    @Args('id') id: number
+  ): Promise<Player> {
+    let updatedPlayer = await this.playerService.sendAttack(id)
+    console.log(updatedPlayer);
+    return updatedPlayer
+  }
 
 }

@@ -15,4 +15,10 @@ export class Player {
   @Field((type) => Int)
   gameId: number
 
+  @Field((type) => Int)
+  sentAttacks: number
+
+  @Field((type) => Int)
+  hits: number
+
 }

@@ -12,8 +12,13 @@ model Player {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   gameId Int
+  sentAttacks Int @default(0)
+  hits Int @default(0)
 }
-// when calling from the client we can send attack because we only need the gameid?
-// the player service doesnt need to communicat with game
-// in the game service do findGame {where: player1id or player2id}} matches param
-// from send attack on client side
+
+// when sendAttack always increment sentAttacks if game.isActive
+// then roll for hit
+// if hit --> increment hits 
+// if hits === 10 then winner
+// then this sends event gameWinner 
+// update gameWinner in gameTable with that id ^ 
