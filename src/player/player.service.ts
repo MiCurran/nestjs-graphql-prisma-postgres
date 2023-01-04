@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Player } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UpdatePlayerArgs, InitPlayerArgs, HitPlayerArgs } from './dto';
+import { isGameActive } from 'src/utils';
+import { UpdatePlayerArgs, InitPlayerArgs } from './dto';
 
 @Injectable()
 export class PlayerService {
@@ -40,27 +41,29 @@ export class PlayerService {
     rollDoesAttackHit(): boolean {
         return Math.random() < 0.5;
     }
-
-   async sendAttack(id: number): Promise<Player> {
+      
+    async sendAttack(id: number): Promise<Player> {
         const playerCurrent = (await this.findOne(id));
-        const doesHit = this.rollDoesAttackHit()
-        let updatedPlayer = null
-        if (doesHit === true) {
-            //attack hit increment sentAttacks and hits
-            const dataToUpdate = {
-                sentAttacks: playerCurrent.sentAttacks + 1, 
-                hits: playerCurrent.hits + 1
+        let updatedPlayer = playerCurrent
+        if (await isGameActive(playerCurrent.gameId) === true) {
+            const doesHit = this.rollDoesAttackHit()
+            if (doesHit === true) {
+                //attack hit increment sentAttacks and hits
+                const dataToUpdate = {
+                    sentAttacks: playerCurrent.sentAttacks + 1, 
+                    hits: playerCurrent.hits + 1 
+                }
+                const dto = {data: {idToUpdate: id, dataToUpdate: dataToUpdate}}
+                updatedPlayer = await this.updateOne(dto);
+            } else {
+                // attack missed just increment sentAttacks
+                const dataToUpdate = {
+                    sentAttacks: playerCurrent.sentAttacks + 1, 
+                }
+                const dto = {data: {idToUpdate: id, dataToUpdate: dataToUpdate}}
+                updatedPlayer = await this.updateOne(dto);
             }
-            const dto = {data: {idToUpdate: id, dataToUpdate: dataToUpdate}}
-            updatedPlayer = await this.updateOne(dto);
-        } else {
-            // attack missed just increment sentAttacks
-            const dataToUpdate = {
-                sentAttacks: playerCurrent.sentAttacks + 1, 
-            }
-            const dto = {data: {idToUpdate: id, dataToUpdate: dataToUpdate}}
-            updatedPlayer = await this.updateOne(dto);
         }
         return updatedPlayer
-    }
+   }
 }
