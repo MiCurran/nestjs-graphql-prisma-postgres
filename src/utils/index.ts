@@ -8,8 +8,8 @@ type Game = {
     gameWinner: number
 }
 interface IGameRes {
-    FindGameById: Partial<Game>
-    ListAllGames: Partial<Game>[]
+    FindGameById?: Partial<Game>
+    ListAllGames?: Partial<Game>[]
 }
 export const GAME_SERVICE_CALL = async (query: string, variables?: {}): Promise<IGameRes> => {
     let results = await fetch(`${process.env.GAME_SERVICE_URL}`, {
