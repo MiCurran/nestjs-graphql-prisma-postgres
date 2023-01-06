@@ -22,12 +22,12 @@ npm run db:dev:init
 When `npx prisma migrate dev` is executed against a newly created database, seeding is also triggered. The seed file in [`prisma/seed.ts`](./prisma/seed.ts) will be executed and your database will be populated with the sample data.
 
 
-### 2. Start the GraphQL server
+### 3. Start the GraphQL server
 
 Launch your GraphQL server and start the postgres container with this command:
 
 ```
-npm run dev
+npm run start:dev
 ```
 
 Navigate to [http://localhost:3000/graphql](http://localhost:3000/graphql) in your browser to explore the API of your GraphQL server in a [GraphQL Playground](https://github.com/prisma/graphql-playground).
@@ -51,7 +51,7 @@ Navigate to [http://localhost:3000/graphql](http://localhost:3000/graphql) in yo
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     // starts the postgres container + the nest dev server in --watch mode
-    "dev": "npm run db:dev:up && nest start --watch",
+    "start:dev": "npm run db:dev:up && nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -74,16 +74,39 @@ Feel free to adjust any operation by adding or removing fields. The GraphQL Play
 
 ```graphql
 mutation {
-  createPlayer(data: { name: "Zangief", health: 12 }) {
+  initPlayer(data: { gameId: 12 }) {
     id
-    name
-    health
+    gameId
+    sentAttacks
   }
 }
 ```
 
 <details><summary><strong>See more API operations</strong></summary>
 
+### Find Player by ID
+
+```graphql
+query {
+  findPlayer(id: 12) {
+    id
+    gameId
+    sentAttacks
+  }
+}
+```
+
+### Send Attack From Player
+
+```graphql
+mutation {
+  sendAttack(id: 4){
+    gameId
+    sentAttacks
+    hits
+}
+}
+```
 
 </details>
 
