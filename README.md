@@ -11,6 +11,12 @@ Install npm dependencies:
 npm install
 ```
 
+Copy Example env:
+
+```
+cp .env.example .env
+```
+
 ### 2. Create and seed the database
 
 Run the following command to create your docker container with Postgres database. This also creates and seeds the `Player` table that is defined in [`prisma/schema.prisma`](./prisma/schema.prisma):
